@@ -1,30 +1,33 @@
 const URLSrc = 'https://jsonplaceholder.typicode.com/todos'
 
-let input = document.getElementById('toDoNum')
-let numToDo = input.value
 
 
-async function displayToDo (numToDo) {
+
+
+async function displayToDo (i) {
  let toDoHTTPresponse = await fetch(URLSrc)
     console.log(toDoHTTPresponse)
+let toDoresponse = await toDoHTTPresponse.text()
+    // console.log(toDoresponse)
+let parsedToDo = JSON.parse(toDoresponse)
+// console.log(parsedToDo)
+console.log(parsedToDo[0])
+
 if(toDoHTTPresponse.status !== 200){
     console.error('Error')
-}
- let toDoresponse = await toDoHTTPresponse.json()
-    console.log(toDoresponse)
+}else{
 
-for(let i; i === numToDo; i++){
-    let displayList = document.getElementById('toDoList')
-    displayList.innerHTML += `<li>${toDoresponse[i].title}</li>
-    `
+    let display = document.getElementById('list_container')
+    display.innerHTML = `<span>hai da fare: ${parsedToDo[i].title}</span>`
+}
 }
 
-}
 
 
 let submitBtn = document.getElementById('btn_submit')
 submitBtn.onclick = () => {
-    document.getElementById('toDoList').innerHTML = ''
+    document.getElementById('list_container').innerHTML = ''
+    let numToDo = document.getElementById('toDoNum').value
     displayToDo(numToDo)
 }
 
